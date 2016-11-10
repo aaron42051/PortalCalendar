@@ -1,0 +1,17 @@
+-Events:
+  add
+  remove
+  update
+  recursive events
+
+notifications/reminders
+
+-UI:
+  Monthly/weekly/daily views and back-and-forth
+  color-picker
+
+-Monthly:
+  color day cell with events
+
+-Weekly:
+  colored box w/ title
