@@ -13,24 +13,45 @@
 	<button id="AddEventBtn"><img src="Assets/plus.png" id="plus"/>
 	</button>
 
-<div id="AddModal" class = "modal">
-	<div class="modal-content">
-		<span class="close">x</span>
-		<h1 id="modalTitle">Add a New Event</h1>
-		<div>
-			<form id="Title">
-				<label for="Title">Title of Event:</label>
-				<input type="text" id="EventTitle">
-			</form>
-			<form>
-				Start Time:
-				<input type="time">
-				End Time:
-				<input type="time">
-			</form>
+	<!-- Modal -->
+	<div id="AddModal" class = "modal">
+		<div class="modal-content">
+			<span class="close">x</span>
+
+			<h1 id="modalTitle">Add a New Event</h1>
+
+			<div>
+				<form class="form">
+					<label for="Title">Title of Event:</label>
+					<input type="text" id="EventTitle">
+				</form>
+
+				<form class="form">
+					Start Time:
+					<input type="time">
+					End Time:
+					<input type="time">
+				</form>
+
+				<form class="form">
+					Repeat:
+					<input type="radio" name="repeat" value="None" checked> None
+					<input type="radio" name="repeat" value="Weekly"> Weekly
+					<input type="radio" name="repeat" value="Monthly"> Monthly <br>
+				</form>
+
+				<form class="form">
+					<input type="checkbox" name="dayOfWeek" value="Sunday"> Sunday
+					<input type="checkbox" name="dayOfWeek" value="Monday"> Monday
+					<input type="checkbox" name="dayOfWeek" value="Tuesday"> Tuesday
+					<input type="checkbox" name="dayOfWeek" value="Wednesday"> Wednesday
+					<input type="checkbox" name="dayOfWeek" value="Thursday"> Thursday
+					<input type="checkbox" name="dayOfWeek" value="Friday"> Friday
+					<input type="checkbox" name="dayOfWeek" value="Saturday"> Saturday 
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
 
 	<!-- Calendar Body -->
 	 <tbody>
