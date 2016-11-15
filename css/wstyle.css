@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.week {
+  border: 2px solid black;
+  text-align: center;
+  font-size: 170%;
+  margin: 0% auto;
+  border-collapse: collapse;
+}
+
+
+
+table.week div{
+    font-size: 100%;
+    width: 20vh;
+    height: 10vh;
+    border: 2px solid black;
+    text-align: left;
+    margin: 0px;
+    padding: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+table.week div.cevent {
+
+  background-color: red;
+
+
+}

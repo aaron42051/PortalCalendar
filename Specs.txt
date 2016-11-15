@@ -12,6 +12,21 @@ notifications/reminders
 
 -Monthly:
   color day cell with events
+  lead to right drawer
 
 -Weekly:
   colored box w/ title
+
+-Daily:
+  title of event, details
+
+-Right drawer:
+  show day events, title and time
+  leads to daily view
+
+-Edit:
+  Title
+  Time
+  Date
+  Repeat
+    None, Weekly, Monthly
