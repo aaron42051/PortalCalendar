@@ -1,23 +1,4 @@
 
-//modal
-var modal = document.querySelector("#AddModal");
-
-var plusButton = document.querySelector("#AddEventBtn");
-
-var span = document.querySelector(".close");
-
-function buttonClick() {
-    modal.style.display = "block";
-}
-function xOut() {
-    modal.style.display = "none";
-}
-
-plusButton.addEventListener("click", buttonClick);
-
-span.addEventListener("click", xOut);
-
-
 function addWeek(table, row, days, divs, last)
 {
   var newR = table.insertRow(row);

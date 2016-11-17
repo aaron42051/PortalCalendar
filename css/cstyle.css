@@ -1,16 +1,8 @@
 * {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -o-box-sizing: border-box;
-  box-sizing: border-box;
-  /* adds animation for all transitions */
-  -webkit-transition: .25s ease-in-out;
-  -moz-transition: .25s ease-in-out;
-  -o-transition: .25s ease-in-out;
-  transition: .25s ease-in-out;
+
   margin: 0;
   padding: 0;
-  -webkit-text-size-adjust: none;
+
 }
 
 html,
@@ -92,6 +84,13 @@ header {
   margin: 5% auto;
 }
 
+#calendar {
+  border: 2px solid black;
+  text-align: center;
+  font-size: 170%;
+  margin: 5% auto;
+}
+
 #month {
   font-size: 4vh;
 }
@@ -107,7 +106,7 @@ table.calendar div{
 
 table.calendar div > div.cevent {
 
-  background-color: red;
+  background-color: green;
   border-radius: 50%;
   width: 20%;
   height: 20%;
