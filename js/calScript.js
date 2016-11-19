@@ -72,6 +72,10 @@ var monthLength = days_in_month[month]; //# of days in month
 
 //header
 var table = document.querySelector(".calendar");
+//probably a function
+//    |
+//    |
+//    v
 var firstRow = table.insertRow(0);
 var th = document.createElement('th');
 th.innerHTML = months[month] + " " + year;
@@ -80,7 +84,7 @@ th.setAttribute("id", "month");
 firstRow.appendChild(th);
 
 
-addWeek(table, 1, ["S", "M", "T", "W", "TH", "F", "S"], false);
+addWeek(table, 1, ["S", "M", "T", "W", "TH", "F", "S"], false, false);
 var currentDay = 1; //keep track of day labels
 var currentWeek = 2; //after header and labels
 var lastWeek = false; //don't fill in days past 29-31
