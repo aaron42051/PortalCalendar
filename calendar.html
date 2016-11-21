@@ -25,11 +25,13 @@
 					<label for="Title">Title of Event:</label>
 					<input type="text">
 				</form>
-				<div class="dropdown">
-  				<button onclick = "dropDown()" class="dropbtn">Day</button>
-  				<div id="myDropdown" class="dropdown-content">
-  				</div>
-				</div>
+
+				<form class="form" id="dropDown">
+						Day:
+						<select id="days">
+						</select>
+				</form>
+
 				<form class="form" id="Time">
 					Start Time:
 					<input type="time">
@@ -58,7 +60,7 @@
 		</div>
 	</div>
 
-
+	
 	<!-- Calendar Body -->
 	 <table class="calendar">
 	 </table>

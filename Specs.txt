@@ -13,6 +13,7 @@ notifications/reminders
 -Monthly:
   color day cell with events
   lead to right drawer
+  show the repeating events
 
 -Weekly:
   colored box w/ title

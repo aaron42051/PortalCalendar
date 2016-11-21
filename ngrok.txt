@@ -1,0 +1,17 @@
+127.0.0.1 -> local host IP (self computer only)
+
+local DNS (host file) will contain this IP
+
+ngrok: service that allows you to proxy your local server onto any port
+giving local port for HTTPS
+-will provide a dash board for local host as well as the port its going to
+run on
+-dashboard shows all traffic going through
+
+can apply ngrok url to slack to request when using slash command
+(ngrokurl/slack)
+/command name
+local server log will show command being made
+server code (you write) will send back response
+
+-used to skip the process of pulling and pushing to test programs

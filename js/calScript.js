@@ -25,7 +25,16 @@ weekButton.addEventListener("click", checkRadio);
 monthButton.addEventListener("click", checkRadio);
 noneButton.addEventListener("click", checkRadio);
 
-function checkRadio()
+function Event(title, start, end, repeat, weekdays, day)
+{
+  this.title = title;
+  this.start = start;
+  this.end = end;
+  this.repeat = repeat;
+  this.weekdays = weekdays;
+  this.day = day;
+}
+function checkRadio() //gray out checkboxes if repeat == "None"
 {
 
   var repeat = document.getElementsByName("repeat")[0];
@@ -40,9 +49,35 @@ function checkRadio()
   else {
       for (var i = 0; i < dat.length; i++)
       {
-        console.log("the truth");
+        dat[i].disabled = true;
       }
     }
+}
+
+function applyEvent(table, e)
+{
+  for(var i = 2; i < table.rows.length; i++)
+  {
+    var cell = 0;
+    var firstDayOfWeek = table.rows[i].cells[cell].childNodes[0].innerHTML;
+    while(firstDayOfWeek == "")
+    {
+      cell += 1;
+      firstDayOfWeek = table.rows[i].cells[cell].childNodes[0].innerHTML;
+    }
+    firstDayOfWeek = parseInt(firstDayOfWeek);
+    console.log(firstDayOfWeek);
+
+    if (e.day >= firstDayOfWeek && e.day<= firstDayOfWeek + 6)
+    {
+      console.log("week: " + (i-2));
+      var offset = e.day - firstDayOfWeek + cell;
+      console.log("offset: " + offset);
+      var newDiv = document.createElement("div");
+      newDiv.setAttribute("class", "cevent");
+      table.rows[i].cells[offset].childNodes[0].appendChild(newDiv);
+    }
+  }
 }
 
 function submitEvent() //NEED TO CHECK FOR BAD INPUTS
@@ -51,7 +86,7 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
   var start = document.querySelector("#Time").elements[0].value;
   var end = document.querySelector("#Time").elements[1].value;
   var repeat = document.getElementsByName("repeat");
-  
+  var day = document.querySelector("#days").value;
   for (radio = 0; radio < repeat.length; radio++)
   {
     if(repeat[radio].checked)
@@ -69,45 +104,13 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
     }
   }
   xOut();
-  events.push(new Event(title, start, end, repeatCheck, weekdays, day));
+  var newEvent = new Event(title, start, end, repeatCheck, weekdays, day);
+  events.push(newEvent);
+  applyEvent(document.querySelector(".calendar"), newEvent);
 }
 
 
 
-//DROPDOWN MENU STUFF
-function dropDown() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
-
-
-
-function addEvent(e)
-{
-
-}
-
-function Event(title, start, end, repeat, weekdays, day)
-{
-  this.title = title;
-  this.start = start;
-  this.end = end;
-  this.repeat = repeat;
-  this.weekdays = weekdays;
-  this.day = day;
-}
 
 function addWeek(table, row, days, divs, last)
 {
@@ -165,7 +168,7 @@ var monthLength = days_in_month[month]; //# of days in month
 
 //header
 var table = document.querySelector(".calendar");
-//probably a function
+//probably a function, for later
 //    |
 //    |
 //    v
@@ -208,12 +211,14 @@ while(currentDay <= days_in_month[month])
 }
 
 //add to drop down
-var drop = document.querySelector("#myDropdown");
+var drop = document.querySelector("#days");
 for(var g = 1; g <= monthLength; g++)
 {
-  var num = document.createElement("a");
-  console.log(num);
-  num.setAttribute("href", "#");
+  var num = document.createElement("option");
+  num.setAttribute("value", g);
   num.innerHTML = g;
   drop.appendChild(num);
 }
+console.log(events);
+events.push(new Event("School", "00:21", "12:21", "None", [], "1"));
+applyEvent(table, events[0]);
