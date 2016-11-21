@@ -13,13 +13,17 @@
 
 table.day div {
   font-size: 100%;
-  width: 180vh;
+  width: 18vh;
   height: 10vh;
   border: 2px solid black;
   text-align: left;
   margin: 0px;
   padding: 0px;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+table.day div.hour {
+  width: 200vh;
 }
 
 .timeColumn {
@@ -30,6 +34,4 @@ table.day div {
 table.day div.cevent {
 
   background-color: green;
-
-
 }

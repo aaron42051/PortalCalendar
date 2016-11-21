@@ -21,12 +21,16 @@
 			<h1 id="modalTitle">Add a New Event</h1>
 
 			<div>
-				<form class="form">
+				<form class="form" id ="EventTitle">
 					<label for="Title">Title of Event:</label>
-					<input type="text" id="EventTitle">
+					<input type="text">
 				</form>
-
-				<form class="form">
+				<div class="dropdown">
+  				<button onclick = "dropDown()" class="dropbtn">Day</button>
+  				<div id="myDropdown" class="dropdown-content">
+  				</div>
+				</div>
+				<form class="form" id="Time">
 					Start Time:
 					<input type="time">
 					End Time:
@@ -41,20 +45,22 @@
 				</form>
 
 				<form class="form">
-					<input type="checkbox" name="dayOfWeek" value="Sunday"> Sunday
-					<input type="checkbox" name="dayOfWeek" value="Monday"> Monday
-					<input type="checkbox" name="dayOfWeek" value="Tuesday"> Tuesday
-					<input type="checkbox" name="dayOfWeek" value="Wednesday"> Wednesday
-					<input type="checkbox" name="dayOfWeek" value="Thursday"> Thursday
-					<input type="checkbox" name="dayOfWeek" value="Friday"> Friday
-					<input type="checkbox" name="dayOfWeek" value="Saturday"> Saturday
+					<input type="checkbox" name="dayOfWeek" value="Sunday" disabled = "disabled"> Sunday
+					<input type="checkbox" name="dayOfWeek" value="Monday" disabled = "disabled"> Monday
+					<input type="checkbox" name="dayOfWeek" value="Tuesday" disabled = "disabled"> Tuesday
+					<input type="checkbox" name="dayOfWeek" value="Wednesday" disabled = "disabled"> Wednesday
+					<input type="checkbox" name="dayOfWeek" value="Thursday" disabled = "disabled"> Thursday
+					<input type="checkbox" name="dayOfWeek" value="Friday" disabled = "disabled"> Friday
+					<input type="checkbox" name="dayOfWeek" value="Saturday" disabled = "disabled"> Saturday
 				</form>
+				<input type="submit" value="Submit" id="submitEvent" onclick = submitEvent()>
 			</div>
 		</div>
 	</div>
 
+
 	<!-- Calendar Body -->
-	 <table class="calendar"> 
+	 <table class="calendar">
 	 </table>
 			<script type="text/javascript" src="js/calScript.js"></script>
 	</body>

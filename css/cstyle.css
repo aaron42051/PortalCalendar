@@ -73,7 +73,8 @@ header {
 
 .form {
   margin: 2% auto;
-
+  font-size: 3vh;
+  color: white;
 }
 
 .calendar {
@@ -111,6 +112,34 @@ table.calendar div > div.cevent {
   width: 20%;
   height: 20%;
   margin: 50% auto auto;
+}
 
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 3vh;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 2vh;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.dropdown-content a {
+    color: black;
+    padding: 6px 8px;
+    text-decoration: none;
+    display: block;
+    overflow: auto;
 
 }
+.show {display:block;}

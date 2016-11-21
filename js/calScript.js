@@ -6,6 +6,10 @@ var plusButton = document.querySelector("#AddEventBtn");
 
 var span = document.querySelector(".close");
 
+var noneButton = document.getElementsByName("repeat")[0];
+var weekButton = document.getElementsByName("repeat")[1];
+var monthButton = document.getElementsByName("repeat")[2];
+
 function buttonClick() {
     modal.style.display = "block";
 }
@@ -17,6 +21,93 @@ plusButton.addEventListener("click", buttonClick);
 
 span.addEventListener("click", xOut);
 
+weekButton.addEventListener("click", checkRadio);
+monthButton.addEventListener("click", checkRadio);
+noneButton.addEventListener("click", checkRadio);
+
+function checkRadio()
+{
+
+  var repeat = document.getElementsByName("repeat")[0];
+  var dat = document.getElementsByName("dayOfWeek");
+  if (repeat.checked == false)
+  {
+    for (var i = 0; i < dat.length; i++)
+    {
+      dat[i].disabled = false;
+    }
+  }
+  else {
+      for (var i = 0; i < dat.length; i++)
+      {
+        console.log("the truth");
+      }
+    }
+}
+
+function submitEvent() //NEED TO CHECK FOR BAD INPUTS
+{
+  var title = document.querySelector("#EventTitle").elements[0].value;
+  var start = document.querySelector("#Time").elements[0].value;
+  var end = document.querySelector("#Time").elements[1].value;
+  var repeat = document.getElementsByName("repeat");
+  
+  for (radio = 0; radio < repeat.length; radio++)
+  {
+    if(repeat[radio].checked)
+    {
+      var repeatCheck = repeat[radio].value;
+      break;
+    }
+  }
+  var weekdays = [];
+  for (d = 0; d < days.length; d++)
+  {
+    if (days[d].checked)
+    {
+      weekdays[i] = days[d].value;
+    }
+  }
+  xOut();
+  events.push(new Event(title, start, end, repeatCheck, weekdays, day));
+}
+
+
+
+//DROPDOWN MENU STUFF
+function dropDown() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+
+
+function addEvent(e)
+{
+
+}
+
+function Event(title, start, end, repeat, weekdays, day)
+{
+  this.title = title;
+  this.start = start;
+  this.end = end;
+  this.repeat = repeat;
+  this.weekdays = weekdays;
+  this.day = day;
+}
 
 function addWeek(table, row, days, divs, last)
 {
@@ -49,6 +140,8 @@ function addWeek(table, row, days, divs, last)
     }
   }
 }
+
+var events = [];
 
 //useful date variables
 var days_in_month = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -112,5 +205,15 @@ while(currentDay <= days_in_month[month])
   }
   addWeek(table, currentWeek, weekNums, true, lastWeek);
   currentWeek+=1;
+}
 
+//add to drop down
+var drop = document.querySelector("#myDropdown");
+for(var g = 1; g <= monthLength; g++)
+{
+  var num = document.createElement("a");
+  console.log(num);
+  num.setAttribute("href", "#");
+  num.innerHTML = g;
+  drop.appendChild(num);
 }

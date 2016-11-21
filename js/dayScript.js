@@ -1,22 +1,21 @@
-function addRow(table, row, days, divs, last)
+function addRow(table, row, days, divs, day)
 {
   var newR = table.insertRow(row);
-  for(k = 0; k < 8; k++)
+  for(k = 0; k < 2; k++)
   {
     var newC = newR.insertCell(k);
-    var startPoint = 8 - days.length;
-    var endPoint = 8;
-    if(last)
-    {
-      startPoint = 0;
-      endPoint = 8 - days.length;
-    }
+    var startPoint = 2 - days.length;
+    var endPoint = 2;
     if(divs)
     {
       var div = document.createElement("div");
       if(k >= startPoint && k <= endPoint)
       {
         div.innerHTML = days[k-startPoint];
+        if(day && k != 0)
+        {
+          div.setAttribute("class", "hour");
+        }
       }
       newC.appendChild(div);
     }
@@ -44,29 +43,9 @@ function fillWeek(table)
     {
       temp[0] += " AM";
     }
-    for(j = 1; j < 8; j++)
-    {
-      temp[j] = " ";
-    }
+    temp[1] = " ";
     //offset the top labels
-    addRow(table, i + 3, temp, true, false);
-  }
-}
-
-function addEvent(table, day, start, end, name, PM)
-{
-  if (PM)
-  {
-    start += 12;
-    end += 12;
-  }
-  for(start1 = start; start1 < end; start1++)
-  {
-    var inside = "<div class=\"cevent\"></div>";
-    if(start1 ==start){
-      inside = "<div class=\"cevent\">" + name + "</div>";
-    }
-    table.rows[start1].cells[day].innerHTML = inside;
+    addRow(table, i + 2, temp, true, true);
   }
 }
 
@@ -79,25 +58,24 @@ var time = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 var today = new Date();
 var month = today.getMonth();
 var year = today.getFullYear();
+var day = today.getDay();
 
 var weekNums = ["Time", 1, 2, 3, 4, 5, 6, 7]; //test array
-var labels =[];
 
 var dayLabels=[time[0] + " AM", " ", " ", " ", " ", " ", " ", " "];
 
 
 
-var table = document.querySelector(".week");
+var table = document.querySelector(".day");
 
 var firstRow = table.insertRow(0);
 var th = document.createElement('th');
+//add title
 th.innerHTML = months[month] + " " + year;
-th.colSpan = "8";
+th.colSpan = "2";
 th.setAttribute("id", "month");
 firstRow.appendChild(th);
 
-addRow(table, 1, weekNums, false, false); //row of day #'s'
-addRow(table, 2, days, false, false);
+addRow(table, 1, [days[day]], false, false);
+table.rows[1].cells[1].setAttribute("colSpan", "1");
 fillWeek(table);
-//table, day# - 1, start hour + 2, end hour + 2, name of event
-addEvent(table, 3, 4, 7, "School", true);
