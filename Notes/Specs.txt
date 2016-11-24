@@ -14,7 +14,6 @@ notifications/reminders
   color day cell with events
   lead to right drawer
   show the repeating events
-  (caption)
 
 -Weekly:
   colored box w/ title

@@ -1,0 +1,18 @@
+httpRequest.open('GET', 'http://www.example.org/some.file', true);
+open(request, url, ajax?)
+
+httpRequest.send(null); //can use query string:
+"name=value&anothername="+encodeURIComponent(myVar)+"&so=on"
+
+sometimes, need to add this first:
+httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+0 (uninitialized) readyStates
+1 (loading)
+2 (loaded)
+3 (interactive)
+4 (complete)
+
+httpRequest.responseText – returns the server response as a string of text
+httpRequest.responseXML – returns the response as an XMLDocument object
+you can traverse using the JavaScript DOM functions
