@@ -70,18 +70,12 @@ function addEvent(table, day, start, end, name, PM)
   }
 }
 
-//useful date variables
-var days_in_month = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-var time = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 //Date
 var today = new Date();
 var month = today.getMonth();
 var year = today.getFullYear();
 
 var weekNums = ["Time", 1, 2, 3, 4, 5, 6, 7]; //test array
-var labels =[];
 
 var dayLabels=[time[0] + " AM", " ", " ", " ", " ", " ", " ", " "];
 
@@ -89,12 +83,8 @@ var dayLabels=[time[0] + " AM", " ", " ", " ", " ", " ", " ", " "];
 
 var table = document.querySelector(".week");
 
-var firstRow = table.insertRow(0);
-var th = document.createElement('th');
-th.innerHTML = months[month] + " " + year;
-th.colSpan = "8";
-th.setAttribute("id", "month");
-firstRow.appendChild(th);
+
+addTitle(table, month, year, "8", "week");
 
 addRow(table, 1, weekNums, false, false); //row of day #'s'
 addRow(table, 2, days, false, false);

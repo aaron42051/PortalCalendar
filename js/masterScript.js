@@ -1,61 +1,24 @@
 var ajaxURL = "http://thiman.me:1337/aaron";
 
 
-
-//<------------------------------Calendar Modal--------------------------->
-var modal = document.querySelector("#AddModal");
-var plusButton = document.querySelector("#AddEventBtn");
-var span = document.querySelector(".close");
-var noneButton = document.getElementsByName("repeat")[0];
-var weekButton = document.getElementsByName("repeat")[1];
-var monthButton = document.getElementsByName("repeat")[2];
-
-function buttonClick() {
-    modal.style.display = "block";
-}
-function xOut() {
-    modal.style.display = "none";
-}
-
-plusButton.addEventListener("click", buttonClick);
-span.addEventListener("click", xOut);
-weekButton.addEventListener("click", checkRadio);
-monthButton.addEventListener("click", checkRadio);
-noneButton.addEventListener("click", checkRadio);
-
-function checkRadio() //gray out checkboxes if repeat == "None"
-{
-
-  var repeat = document.getElementsByName("repeat")[0];
-  var dat = document.getElementsByName("dayOfWeek");
-  if (repeat.checked == false)
-  {
-    for (var i = 0; i < dat.length; i++)
-    {
-      dat[i].disabled = false;
-    }
-  }
-  else {
-      for (var i = 0; i < dat.length; i++)
-      {
-        dat[i].disabled = true;
-      }
-    }
-}
-
 //<------------------------------Event Class/Functions------------------->
-var Event = function(title, start, end, repeat, weekdays, day)
+var Event = function(title, start, end, repeat, weekdays, datetime)
 {
   this.title = title;
   this.start = start;
   this.end = end;
   this.repeat = repeat;
   this.weekdays = weekdays;
-  this.day = day;
+  this.datetime = datetime;
 }
 
-function applyEvent(table, e)
+
+
+function applyEvent(table, e) //adds a green button to calendar view
 {
+  day = e.datetime.getDate();
+  month = e.datetime.getMonth();
+  year = e.datetime.getFullYear();
   for(var i = 2; i < table.rows.length; i++)
   {
     var cell = 0;
@@ -67,11 +30,13 @@ function applyEvent(table, e)
     }
     firstDayOfWeek = parseInt(firstDayOfWeek);
 
-    if (e.day >= firstDayOfWeek && e.day<= firstDayOfWeek + 6)
+    if (day >= firstDayOfWeek && day<= firstDayOfWeek + 6)
     {
-      var offset = e.day - firstDayOfWeek + cell;
+      datestring = year + "-" + month + "-" + day;
+      var offset = day - firstDayOfWeek + cell;
       var newDiv = document.createElement("div");
       newDiv.setAttribute("class", "cevent");
+      newDiv.setAttribute("onclick", "openNav(" + "\"" +  datestring + "\""+ ")");
       table.rows[i].cells[offset].childNodes[0].appendChild(newDiv);
     }
   }
@@ -84,7 +49,9 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
   var start = document.querySelector("#Time").elements[0].value;
   var end = document.querySelector("#Time").elements[1].value;
   var repeat = document.getElementsByName("repeat");
-  var day = document.querySelector("#days").value;
+  //var day = document.querySelector("#days").value;
+  var date = document.querySelector("#date").elements[0].value;
+  console.log(date);
   for (radio = 0; radio < repeat.length; radio++)
   {
     if(repeat[radio].checked)
@@ -102,13 +69,56 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
     }
   }
   xOut();
-  var newEvent = new Event(title, start, end, repeatCheck, weekdays, day);
-  events.push(newEvent);
-  applyEvent(document.querySelector(".calendar"), newEvent);
+  y = parseInt(date.substring(0, 4));
+  m = parseInt(date.substring(5, 7));
+  d = parseInt(date.substring(8));
+  var newEvent = new Event(title, start, end, repeatCheck, weekdays, new Date(y, m, d));
+  if(events[date] != null)
+  {
+    events[date].push(newEvent);
+  }
+  else
+  {
+    events[date] = [newEvent];
+    applyEvent(document.querySelector(".calendar"), newEvent);
+  }
+
 }
 
+function displayEvents(table)
+{
+  displayed = [];
+  for(key in events)
+  {
+    if (parseInt(key.substring(5, 7)) == currentMonth && displayed.indexOf(key) == -1)
+    {
+      applyEvent(table, events[key]);
+      displayed.push(key);
+    }
+  }
+}
 
-//<------------------------------HTML Editing--------------------------->
+function listDay(datestring)
+{
+  y = datestring.substring(0, 4);
+  m = datestring.substring(5, 7);
+  d = datestring.substring(8);
+  drawer = document.querySelector("#leftDrawer");
+  drawerDate = document.querySelector("#drawerDate");
+  drawerDate.innerHTML = m + "/" + d + "/" + y;
+  list = document.createElement("ul");
+  list.setAttribute("class", "list");
+  arr = events[datestring];
+  for(i = 0; i < events[datestring].length; i++)
+  {
+    e = arr[i];
+    console.log("title: " + e.title);
+    list.innerHTML += "<li>" + e.title + "</li>";
+  }
+  drawer.appendChild(list);
+}
+
+//<------------------------------HTML Table Editing----------------------->
 function addWeek(table, row, days, divs, last)
 {
   var newR = table.insertRow(row);
@@ -140,7 +150,7 @@ function addWeek(table, row, days, divs, last)
     }
   }
 }
-function addTitle(month, year, cSpan, id)
+function addTitle(table, month, year, cSpan, id)
 {
   firstRow = table.insertRow(0);
   th = document.createElement('th');
@@ -179,20 +189,54 @@ function fillDays(table, currentDay, currentWeek, lastWeek, month)
   }
 }
 
-
+function addRow(table, row, days, divs, day)
+{
+  var newR = table.insertRow(row);
+  for(k = 0; k < 2; k++)
+  {
+    var newC = newR.insertCell(k);
+    var startPoint = 2 - days.length;
+    var endPoint = 2;
+    if(divs)
+    {
+      var div = document.createElement("div");
+      if(k >= startPoint && k <= endPoint)
+      {
+        div.innerHTML = days[k-startPoint];
+        if(day && k != 0)
+        {
+          div.setAttribute("class", "hour");
+        }
+      }
+      newC.appendChild(div);
+    }
+    else
+    {
+      if(k >= startPoint)
+      {
+        newC.innerHTML = days[k-startPoint];
+      }
+    }
+  }
+}
 //<------------------------------Global Variables------------------------->
 
-var events = [];
+var events = {};
 
 //useful date variables
 var days_in_month = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+var time = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 //Date
 var today = new Date();
 var month = today.getMonth();
 var year = today.getFullYear();
+var day = today.getDay();
+var currentMonth = month;
+var currentYear = year;
+
 
 
 //<------------------------------AJAX------------------------------------->
@@ -214,6 +258,7 @@ var respond = function(){
 
   }
 }
+
 if (window.XMLHttpRequest) { // Mozilla, Safari, IE7+ ...
     httpRequest = new XMLHttpRequest();
 } else if (window.ActiveXObject) { // IE 6 and older

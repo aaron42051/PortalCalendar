@@ -106,15 +106,47 @@ table.calendar div{
 }
 
 table.calendar div > div.cevent {
-
   background-color: green;
   border-radius: 50%;
   width: 20%;
   height: 20%;
   margin: 50% auto auto;
 }
+.drawer {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  background-color: rgb(46, 64, 83);
+  overflow-x: hidden;
+  padding-top: 4%;
+  transition: 0.4s;
 
-#days{
+}
+
+.drawer .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+  color: white;
+
+}
+
+.drawer a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
+}
 
 
+#drawerDate {
+  color: white;
+  font-size: 4vh;
+  padding-left: 10%;
+}
+
+.list {
+  padding-top: 5%;
+  color:white;
+  
 }

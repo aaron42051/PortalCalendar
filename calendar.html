@@ -8,6 +8,11 @@
 		<body>
 			<header>Calendar</header>
 
+	<!-- Right Drawer-->
+	<div id="leftDrawer" class="drawer">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+		<p id="drawerDate"></p>
+	</div>
 
 	<!-- Plus Button -->
 	<button id="AddEventBtn"><img src="Assets/plus.png" id="plus"/>
@@ -26,11 +31,15 @@
 					<input type="text">
 				</form>
 
-				<form class="form" id="dropDown">
+				<form class="form" id="date">
+					<input type="date">
+				</form>
+
+				<!-- <form class="form" id="dropDown">
 						Day:
 						<select id="days">
 						</select>
-				</form>
+				</form> -->
 
 				<form class="form" id="Time">
 					Start Time:
@@ -64,8 +73,8 @@
 	<!-- Calendar Body -->
 	 <table class="calendar">
 	 </table>
-	 <script type="text/javascript" src="js/masterScript.js"></script
 	 <script type="text/javascript" src="js/jquery-3.1.1.js"></script>
+	 <script type="text/javascript" src="js/masterScript.js"></script>
 	 <script type="text/javascript" src="js/calScript.js"></script>
 	</body>
 
