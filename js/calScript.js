@@ -74,6 +74,7 @@ function openNav(datestring) {
   document.getElementById("leftDrawer").style.width = "20%";
 }
 
-function closeNav() {
+function closeNav(datestring) {
+  removeList(datestring);
   document.getElementById("leftDrawer").style.width = 0;
 }

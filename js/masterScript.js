@@ -19,6 +19,14 @@ function applyEvent(table, e) //adds a green button to calendar view
   day = e.datetime.getDate();
   month = e.datetime.getMonth();
   year = e.datetime.getFullYear();
+  if(day < 10)
+  {
+    day = "0" + day;
+  }
+  if(month < 10)
+  {
+    month = "0" + month;
+  }
   for(var i = 2; i < table.rows.length; i++)
   {
     var cell = 0;
@@ -38,6 +46,8 @@ function applyEvent(table, e) //adds a green button to calendar view
       newDiv.setAttribute("class", "cevent");
       newDiv.setAttribute("onclick", "openNav(" + "\"" +  datestring + "\""+ ")");
       table.rows[i].cells[offset].childNodes[0].appendChild(newDiv);
+      drawer = document.querySelector("#leftDrawer");
+      drawer.childNodes[1].setAttribute("onclick", "closeNav(" + "\"" +  datestring + "\""+ ")");
     }
   }
 }
@@ -79,6 +89,7 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
   }
   else
   {
+    console.log("ADDED EVENT: " + date);
     events[date] = [newEvent];
     applyEvent(document.querySelector(".calendar"), newEvent);
   }
@@ -106,16 +117,25 @@ function listDay(datestring)
   drawer = document.querySelector("#leftDrawer");
   drawerDate = document.querySelector("#drawerDate");
   drawerDate.innerHTML = m + "/" + d + "/" + y;
-  list = document.createElement("ul");
+  list = document.createElement("ol");
   list.setAttribute("class", "list");
   arr = events[datestring];
+  console.log(datestring);
+  console.log("event during listDay: " + arr);
   for(i = 0; i < events[datestring].length; i++)
   {
     e = arr[i];
-    console.log("title: " + e.title);
     list.innerHTML += "<li>" + e.title + "</li>";
   }
   drawer.appendChild(list);
+}
+
+function removeList(datestring)
+{
+  drawer = document.querySelector("#leftDrawer");
+  drawerDate = document.querySelector("#drawerDate");
+  drawerDate.innerHTML = "";
+  drawer.removeChild(drawer.childNodes[5]);
 }
 
 //<------------------------------HTML Table Editing----------------------->
