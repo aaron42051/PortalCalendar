@@ -32,3 +32,6 @@ notifications/reminders
   Date
   Repeat
     None, Weekly, Monthly
+
+
+    updating event: prefill modal, and change it

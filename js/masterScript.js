@@ -69,7 +69,7 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
    d = parseInt(date.substring(8));
    datestring = y + "-" + m + "-" + d;
    console.log(datestring);
-  var newEvent = new Event(title, start, end, repeatCheck, weekdays, datestring);
+   var newEvent = new Event(title, start, end, repeatCheck, weekdays, datestring);
   if(events[datestring] != null)
   {
     events[datestring].push(newEvent);
@@ -80,7 +80,7 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
     events[datestring] = [newEvent];
     applyEvent(document.querySelector(".calendar"), newEvent);
   }
-  //postEvent(e);
+  postEvent(e);
 }
 
 function displayEvents(table)
@@ -111,7 +111,8 @@ function listDay(datestring)
   for(i = 0; i < events[datestring].length; i++)
   {
     e = arr[i];
-    list.innerHTML += "<li>" + e.title + "</li>";
+    list.innerHTML += "<li>" + e.title + "<span id=\"time\">" + e.start
+    + " - " + e.end + "</span>" + "</li>";
   }
   drawer.appendChild(list);
 }

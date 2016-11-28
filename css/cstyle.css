@@ -20,7 +20,7 @@ header {
   position: fixed;
   right: 0px;
   background: #efefef;
-  padding: 10px 10px 10px 50px;
+  padding: 10px 0px 10px 60px;
   font-size: 30px;
   line-height: 30px;
   z-index: 0;
@@ -148,5 +148,11 @@ table.calendar div > div.cevent {
 .list {
   padding-top: 5%;
   color:white;
-  
+  padding-left: 6%;
+
+}
+
+#time {
+  float: right;
+  padding-right: 10%;
 }
