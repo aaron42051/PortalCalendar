@@ -14,17 +14,6 @@ var Event = function(title, start, end, repeat, weekdays, datetime)
 
 function applyEvent(table, e) //adds a green button to calendar view
 {
-  day = e.datetime.getDate(); //function?
-  month = e.datetime.getMonth();
-  year = e.datetime.getFullYear();
-  if(day < 10)
-  {
-    day = "0" + day;
-  }
-  if(month < 10)
-  {
-    month = "0" + month;
-  }
   for(var i = 2; i < table.rows.length; i++)
   {
     var cell = 0;
@@ -38,14 +27,13 @@ function applyEvent(table, e) //adds a green button to calendar view
 
     if (day >= firstDayOfWeek && day<= firstDayOfWeek + 6)
     {
-      datestring = year + "-" + month + "-" + day;
       var offset = day - firstDayOfWeek + cell;
       var newDiv = document.createElement("div");
       newDiv.setAttribute("class", "cevent");
-      newDiv.setAttribute("onclick", "openNav(" + "\"" +  datestring + "\""+ ")");
+      newDiv.setAttribute("onclick", "openNav(" + "\"" +  e.datetime + "\""+ ")");
       table.rows[i].cells[offset].childNodes[0].appendChild(newDiv);
       drawer = document.querySelector("#leftDrawer");
-      drawer.childNodes[1].setAttribute("onclick", "closeNav(" + "\"" +  datestring + "\""+ ")");
+      drawer.childNodes[1].setAttribute("onclick", "closeNav(" + "\"" +  e.datetime + "\""+ ")");
     }
   }
 }
@@ -57,7 +45,6 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
   var start = document.querySelector("#Time").elements[0].value;
   var end = document.querySelector("#Time").elements[1].value;
   var repeat = document.getElementsByName("repeat");
-  //var day = document.querySelector("#days").value;
   var date = document.querySelector("#date").elements[0].value;
   console.log(date);
   for (radio = 0; radio < repeat.length; radio++)
@@ -77,19 +64,20 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
     }
   }
   xOut();
-  y = parseInt(date.substring(0, 4));
-  m = parseInt(date.substring(5, 7));
-  d = parseInt(date.substring(8));
-  console.log(start + end);
-  var newEvent = new Event(title, start, end, repeatCheck, weekdays, new Date(y, m, d));
-  if(events[date] != null)
+   y = parseInt(date.substring(0, 4));
+   m = parseInt(date.substring(5, 7));
+   d = parseInt(date.substring(8));
+   datestring = y + "-" + m + "-" + d;
+   console.log(datestring);
+  var newEvent = new Event(title, start, end, repeatCheck, weekdays, datestring);
+  if(events[datestring] != null)
   {
-    events[date].push(newEvent);
+    events[datestring].push(newEvent);
   }
   else
   {
     console.log("ADDED EVENT: " + date);
-    events[date] = [newEvent];
+    events[datestring] = [newEvent];
     applyEvent(document.querySelector(".calendar"), newEvent);
   }
   //postEvent(e);
@@ -119,8 +107,7 @@ function listDay(datestring)
   list = document.createElement("ol");
   list.setAttribute("class", "list");
   arr = events[datestring];
-  console.log(datestring);
-  console.log("event during listDay: " + arr);
+  console.log(arr);
   for(i = 0; i < events[datestring].length; i++)
   {
     e = arr[i];
@@ -169,6 +156,7 @@ function addWeek(table, row, days, divs, last)
     }
   }
 }
+
 function addTitle(table, month, year, cSpan, id)
 {
   firstRow = table.insertRow(0);
@@ -274,36 +262,21 @@ var respond = function(data){
       dataArray = parse["data"];
       for (i = 0; i < dataArray.length; i++)
       {
-
         currentEvent = dataArray[i];
-        datetime = currentEvent["datetime"];
-        console.log(datetime);
-        year = datetime.getFullYear();
-        year += "/";
-        if(datetime.getMonth() < 10)
-        {
-          month = "0" + datetime.getMonth() + "/";
-        }
-        else
-        {
-          month = datetime.getMonth() + "/";
-        }
-        if(datetime.getDay())
-        {
-          day = "0" + datetime.getDay();
-        }
-        else
-        {
-          day = datetime.getDay();
-        }
-        datestring = year + month + day;
+        datestring = currentEvent["datetime"];
+        // console.log(datetime);
+        // year = datetime.substring(0, 4);
+        // month = datetime.substring(5, 7);
+        // day = datetime.substring(8, 10);
+        // datestring = year + "-" + month + "-" + day;
+        //datestring = makeDatestring(datetime);
         if (events[datestring] != null) //fuse into another function later
         {
           events[datestring].push(dataArray[i]);
         }
         else
         {
-          events[datestring] = dataArray[i];
+          events[datestring] = [dataArray[i]];
           applyEvent(document.querySelector(".calendar"), dataArray[i]);
         }
 
@@ -348,4 +321,23 @@ function getEvents()
   httpRequest.onreadystatechange = respond;
   httpRequest.open("GET", ajaxURL);
   httpRequest.send();
+}
+//<------------------------------MISC------------------------------------->
+
+function makeDatestring(datetime)
+{
+  year = datetime.getFullYear();
+  year += "-";
+  month = datetime.getMonth() + "-";
+  day = datetime.getDay();
+  if(datetime.getMonth() < 10)
+  {
+    month = "0" + datetime.getMonth() + "-";
+  }
+  if(datetime.getDay() < 10)
+  {
+    day = "0" + datetime.getDay();
+  }
+  datestring = year + month + day;
+  return datestring;
 }

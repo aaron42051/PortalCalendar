@@ -65,5 +65,5 @@ function closeNav(datestring) {
   removeList(datestring);
   document.getElementById("leftDrawer").style.width = 0;
 }
-
 getEvents();
+//postEvent(new Event("School", "11:21", "23:11", false, [], "2016-11-11"));
