@@ -1,5 +1,3 @@
-var ajaxURL = "http://thiman.me:1337/aaron";
-
 
 //<------------------------------Event Class/Functions------------------->
 var Event = function(title, start, end, repeat, weekdays, datetime)
@@ -16,7 +14,7 @@ var Event = function(title, start, end, repeat, weekdays, datetime)
 
 function applyEvent(table, e) //adds a green button to calendar view
 {
-  day = e.datetime.getDate();
+  day = e.datetime.getDate(); //function?
   month = e.datetime.getMonth();
   year = e.datetime.getFullYear();
   if(day < 10)
@@ -82,6 +80,7 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
   y = parseInt(date.substring(0, 4));
   m = parseInt(date.substring(5, 7));
   d = parseInt(date.substring(8));
+  console.log(start + end);
   var newEvent = new Event(title, start, end, repeatCheck, weekdays, new Date(y, m, d));
   if(events[date] != null)
   {
@@ -93,7 +92,7 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
     events[date] = [newEvent];
     applyEvent(document.querySelector(".calendar"), newEvent);
   }
-
+  //postEvent(e);
 }
 
 function displayEvents(table)
@@ -261,16 +260,59 @@ var currentYear = year;
 
 //<------------------------------AJAX------------------------------------->
 //likely want to move this to another file
-var respond = function(){
+var ajaxURL = "http://thiman.me:1337/aaron";
+
+
+var respond = function(data){
   if(httpRequest.readyState === XMLHttpRequest.DONE) //receive response
   {
     if(httpRequest.status === 200)//successful call
     {
-      alert(httpRequest.responseText);
+      //alert(httpRequest.responseText);
+      console.log("200 OK");
+      parse = JSON.parse(data["currentTarget"]["response"]);
+      dataArray = parse["data"];
+      for (i = 0; i < dataArray.length; i++)
+      {
+
+        currentEvent = dataArray[i];
+        datetime = currentEvent["datetime"];
+        console.log(datetime);
+        year = datetime.getFullYear();
+        year += "/";
+        if(datetime.getMonth() < 10)
+        {
+          month = "0" + datetime.getMonth() + "/";
+        }
+        else
+        {
+          month = datetime.getMonth() + "/";
+        }
+        if(datetime.getDay())
+        {
+          day = "0" + datetime.getDay();
+        }
+        else
+        {
+          day = datetime.getDay();
+        }
+        datestring = year + month + day;
+        if (events[datestring] != null) //fuse into another function later
+        {
+          events[datestring].push(dataArray[i]);
+        }
+        else
+        {
+          events[datestring] = dataArray[i];
+          applyEvent(document.querySelector(".calendar"), dataArray[i]);
+        }
+
+      }
     }
     else
     {
-      alert("Problem with request");
+      //alert("Problem with request");
+      console.log("Problem with request");
     }
   }
   else
@@ -299,4 +341,11 @@ function postEvent(e)
     dataType: "json",
     success: respond
   });
+}
+
+function getEvents()
+{
+  httpRequest.onreadystatechange = respond;
+  httpRequest.open("GET", ajaxURL);
+  httpRequest.send();
 }

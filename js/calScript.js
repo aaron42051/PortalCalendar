@@ -55,19 +55,6 @@ var lastWeek = false; //don't fill in days past 29-31
 //filling in the days
 fillDays(table, currentDay, currentWeek, lastWeek, month);
 
-//add to drop down
-// var drop = document.querySelector("#days");
-// for(var g = 1; g <= monthLength; g++)
-// {
-//   var num = document.createElement("option");
-//   num.setAttribute("value", g);
-//   num.innerHTML = g;
-//   drop.appendChild(num);
-// }
-
-
-//events.push(new Event("School", "00:21", "12:21", "None", [], "1", month));
-//applyEvent(table, events[0]);
 
 function openNav(datestring) {
   listDay(datestring);
@@ -78,3 +65,5 @@ function closeNav(datestring) {
   removeList(datestring);
   document.getElementById("leftDrawer").style.width = 0;
 }
+
+getEvents();
