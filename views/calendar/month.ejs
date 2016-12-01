@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+	<html>
+
+		<head>
+			<link rel='stylesheet' href='/stylesheets/cstyle.css'/>
+      <title><%= title %></title>
+		</head>
+
+		<body>
+			<header>Calendar</header>
+
+	<!-- Right Drawer-->
+	<div id="leftDrawer" class="drawer">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+		<p id="drawerDate"></p>
+	</div>
+
+	<!-- Plus Button -->
+	<button id="AddEventBtn"><img src="/images/plus.png" id="plus"/>
+	</button>
+
+	<!-- Modal -->
+	<div id="AddModal" class = "modal">
+		<div class="modal-content">
+			<span class="close">x</span>
+
+			<h1 id="modalTitle">Add a New Event</h1>
+
+			<div>
+				<form class="form" id ="EventTitle">
+					<label for="Title">Title of Event:</label>
+					<input type="text">
+				</form>
+
+
+				<form class="form" id="Time">
+					Start Time:
+					<input type="date">
+					<input type="time">
+					End Time:
+					<input type="date">
+					<input type="time">
+				</form>
+
+				<form class="form">
+					Repeat:
+					<input type="radio" name="repeat" value="None" checked> None
+					<input type="radio" name="repeat" value="Weekly"> Weekly
+					<input type="radio" name="repeat" value="Monthly"> Monthly <br>
+				</form>
+
+				<form class="form">
+					<input type="checkbox" name="dayOfWeek" value="Sunday" disabled = "disabled"> Sunday
+					<input type="checkbox" name="dayOfWeek" value="Monday" disabled = "disabled"> Monday
+					<input type="checkbox" name="dayOfWeek" value="Tuesday" disabled = "disabled"> Tuesday
+					<input type="checkbox" name="dayOfWeek" value="Wednesday" disabled = "disabled"> Wednesday
+					<input type="checkbox" name="dayOfWeek" value="Thursday" disabled = "disabled"> Thursday
+					<input type="checkbox" name="dayOfWeek" value="Friday" disabled = "disabled"> Friday
+					<input type="checkbox" name="dayOfWeek" value="Saturday" disabled = "disabled"> Saturday
+				</form>
+				<input type="submit" value="Submit" id="submitEvent" onclick = submitEvent()>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Calendar Body -->
+	 <table class="calendar">
+	 </table>
+	 <script>
+	 	var currentDate = new Date('<%=current%>');
+	 </script>
+	 <script type="text/javascript" src="javascripts/jquery-3.1.1.js"></script>
+	 <script type="text/javascript" src="javascripts/masterScript.js"></script>
+	 <script type="text/javascript" src="javascripts/calScript.js"></script>
+	</body>
+
+</html>

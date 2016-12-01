@@ -15,23 +15,22 @@ var eventSchema = new Schema({ //put in another file later, along with model
 eventSchema.methods.hasConflicts = function() {
   that = this;
   return new Promise(function(resolve, reject) {
-    that.model('Event').find({$or: [
+    eventModel.find({$or: [
       {$and: [{startDate:{$lte: that.startDate}}, {endDate:{$gt: that.startDate}}]},
       {$and: [{startDate:{$lte: that.endDate}},{endDate:{$gt: that.endDate}}]}
     ]})
     .then(function(err, events) {
-      console.log(events);
       resolve(events.length !== 0)})
     .catch(function(err) {
       return console.log('error: ', err);
-  });
+    });
   });
   that.setMaxListeners(0);
 }
-var event = mongoose.model('Event', eventSchema);
 
+var eventModel = mongoose.model('events', eventSchema);
 router.get('/', function(req, res, next) {
-  event.find(function (err, events){
+  eventModel.find(function (err, events){
     if(err) return console.error(err);
   res.send(events);
   });
@@ -57,7 +56,7 @@ router.get('/', function(req, res, next) {
 
 
 router.delete('/:id', function(req, res, next){
-  event.remove({_id: req.params.id}, function(err){
+  eventModel.remove({_id: req.params.id}, function(err){
     if(err) res.send("Nothing to remove (probably)!");
   });
   res.send("Removed: " + req.params.id);
@@ -66,7 +65,7 @@ router.delete('/:id', function(req, res, next){
 
 router.patch('/:id', function(req, res, next){
 
-    event.findByIdAndUpdate(req.params.id, {title:req.body["title"]},
+    eventModel.findByIdAndUpdate(req.params.id, {title:req.body["title"]},
     {new:true}, function(err, event){});
 
   res.send("Patched");
@@ -75,7 +74,7 @@ router.patch('/:id', function(req, res, next){
 
 router.post('/', function(req, res, next)
 {
-  var newEvent = new event(req.body);
+  var newEvent = new eventModel(req.body);
   newEvent.
   hasConflicts().
   then(function(hasConflicts) {
@@ -87,7 +86,7 @@ router.post('/', function(req, res, next)
           res.send(err);
         } else {
             console.log('all good');
-            res.json(event);
+            res.json(eventModel);
         }
       });
     }

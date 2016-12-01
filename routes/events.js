@@ -19,18 +19,3 @@ var Schema = mongoose.Schema;
 
 
 module.exports = router;
-
-
-// router.postEvent
-//   var newEvent = new eventModel(req.body);
-//   newEvent.
-//   hasConflicts().
-// then(function(hasConflicts) {
-//   if(!hasConflicts) {
-//     save it
-//   }
-//   else inform user
-// })
-// .catch(function(err) {
-//   reject(err);
-// })

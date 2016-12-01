@@ -9,7 +9,7 @@ var users = require('./routes/users');
 var events = require('./routes/events');
 var route  = require('./routes/route');
 var index = require('./routes/index');
-
+//require calendar/views
 var app = express();
 
 
@@ -34,6 +34,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/calendar', index);
 app.use('/users', users);
 app.use('/events', events);
 app.use('/route', route);
