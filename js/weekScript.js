@@ -53,7 +53,7 @@ function fillWeek(table)
   }
 }
 
-function addEvent(table, day, start, end, name, PM)
+function addEvent(table, day, start, end, name, PM) //swap to use Event
 {
   if (PM)
   {
