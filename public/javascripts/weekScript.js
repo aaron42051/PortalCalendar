@@ -71,9 +71,7 @@ function addEvent(table, day, start, end, name, PM) //swap to use Event
 }
 
 //Date
-var today = new Date();
-var month = today.getMonth();
-var year = today.getFullYear();
+
 
 var weekNums = ["Time", 1, 2, 3, 4, 5, 6, 7]; //test array
 

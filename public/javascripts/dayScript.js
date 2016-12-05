@@ -31,7 +31,7 @@ var dayLabels=[time[0] + " AM", " ", " ", " ", " ", " ", " ", " "];
 var table = document.querySelector(".day");
 
 
-addTitle(table, month, year, "2", "month");
+addTitle(table, month, year, "2", "day");
 
 row2 = table.insertRow(1); //temp
 th = document.createElement('th');

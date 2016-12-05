@@ -14,11 +14,11 @@ var Event = function(title, start, end, repeat, weekdays, datetime)
 
 function applyEvent(table, e) //adds a green button to calendar view
 {
-  for(var i = 2; i < table.rows.length; i++)
+  for(i = 3; i < table.rows.length; i++)
   {
     var cell = 0;
-    var firstDayOfWeek = table.rows[i].cells[cell].childNodes[0].innerHTML;
-    while(firstDayOfWeek == "")
+    var firstDayOfWeek = table.rows[i].cells[cell].childNodes[0];
+    while(firstDayOfWeek.innerHTML == "" || firstDayOfWeek)
     {
       cell += 1;
       firstDayOfWeek = table.rows[i].cells[cell].childNodes[0].innerHTML;
@@ -108,13 +108,11 @@ function listDay(datestring)
   list = document.createElement("ol");
   list.setAttribute("class", "list");
   arr = events[datestring];
-  console.log(arr);
-  for(i = 0; i < events[datestring].length; i++)
+  for(i = 0; i < arr.length; i++)
   {
     e = arr[i];
     list.innerHTML += "<li>" + e.title + "<span id=\"time\">"
-    + e.start.getHours() + ":" + e.start.getMinutes()
-    + " - " + e.end.getHours() + ":" + e.end.getHours() + "</span>" + "</li>";
+    + e.start + " - " + e.end+ "</span>" + "</li>";
   }
   drawer.appendChild(list);
 }
@@ -174,11 +172,12 @@ function fillDays(table, currentDay, currentWeek, lastWeek, month)
 {
   d = currentDay;
   w = currentWeek;
+  previousMonth = month - 1;
     while(d <= days_in_month[month])
     {
     weekNums = [];
     offset = 0;
-    if(w == 2)
+    if(w == 3)
     {
       offset = startDay;
     }
@@ -196,6 +195,14 @@ function fillDays(table, currentDay, currentWeek, lastWeek, month)
     }
     addWeek(table, w, weekNums, true, lastWeek);
     w+=1;
+  }
+  count = 0;
+  for(i = startDay - 1; i >= 0; i--)
+  {
+    currentDiv = table.rows[3].cells[count].childNodes[0];
+    currentDiv.innerHTML = days_in_month[previousMonth] - i;
+    currentDiv.setAttribute("class", "prevMonth");
+    count += 1;
   }
 }
 
@@ -289,7 +296,6 @@ var respond = function(data){
     }
     else
     {
-      //alert("Problem with request");
       console.log("Problem with request");
     }
   }

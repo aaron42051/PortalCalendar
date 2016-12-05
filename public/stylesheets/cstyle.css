@@ -90,7 +90,7 @@ header {
 }
 
 #month {
-  font-size: 4vh;
+  font-size: 6vh;
 }
 
 table.calendar div{
@@ -156,4 +156,13 @@ table.calendar div > div.cevent {
 
 #EventDesc {
   width: 30vh;
+}
+
+.link {
+  font-size: 4vh;
+  align-self:center;
+}
+
+.prevMonth {
+  background-color: #d1e0e0;
 }

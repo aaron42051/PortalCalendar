@@ -35,3 +35,7 @@ table.day div.cevent {
 
   background-color: green;
 }
+
+#day {
+  font-size: 6vh;
+}

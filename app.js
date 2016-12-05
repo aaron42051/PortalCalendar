@@ -11,7 +11,53 @@ var route  = require('./routes/route');
 var index = require('./routes/index');
 //require calendar/views
 var app = express();
+var session = require('client-sessions');
 
+app.use(session({
+  cookieName: 'session',
+  secret: 'ajching',
+  duration: 30 * 60 * 1000,
+  activeDuration: 5 * 60 * 1000,
+}));
+
+//checks db for user record/verifies passoword, stores into cookie
+// app.post('/login', function(req, res) {
+//   User.findOne({ email: req.body.email }, function(err, user) {
+//     if (!user) {
+//       res.render('login.jade', { error: 'Invalid email or password.' });
+//     } else {
+//       if (req.body.password === user.password) {
+//         res.redirect('/dashboard');
+//       } else {
+//         res.render('login.jade', { error: 'Invalid email or password.' });
+//       }
+//     }
+//   });
+// });
+
+
+//used to get user data with the session
+// app.get('/dashboard', function(req, res) {
+//   if (req.session && req.session.user) { // Check if session exists
+//     // lookup the user in the DB by pulling their email from the session
+//     User.findOne({ email: req.session.user.email }, function (err, user) {
+//       if (!user) {
+//         // if the user isn't found in the DB, reset the session info and
+//         // redirect the user to the login page
+//         req.session.reset();
+//         res.redirect('/login');
+//       } else {
+//         // expose the user to the template
+//         res.locals.user = user;
+//
+//         // render the dashboard page
+//         res.render('dashboard.jade');
+//       }
+//     });
+//   } else {
+//     res.redirect('/login');
+//   }
+// });
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/test');

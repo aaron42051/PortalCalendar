@@ -46,9 +46,16 @@ var table = document.querySelector(".calendar");
 
 addTitle(table, month, year, "7", "month");
 
-addWeek(table, 1, ["S", "M", "T", "W", "TH", "F", "S"], false, false);
+//add week/day links
+var linkRow = table.insertRow(1);
+linkRow.setAttribute("align", "center");
+var weekCol = linkRow.insertCell(0); var dayCol = linkRow.insertCell(1);
+weekCol.innerHTML = "<a href=\"week\" class=\"link\">Week</a>";
+dayCol.innerHTML = "<a href=\"day\" class=\"link\">Day</a>";
+
+addWeek(table, 2, ["S", "M", "T", "W", "TH", "F", "S"], false, false);
 var currentDay = 1; //keep track of day labels, start day 1
-var currentWeek = 2; //after header and labels, start week 0
+var currentWeek = 3; //after header and labels, start week 0
 var lastWeek = false; //don't fill in days past 29-31
 
 //filling in the days

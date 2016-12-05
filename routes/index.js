@@ -15,11 +15,21 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/week', function(req, res, next) {
-  res.render('week');
+  var currentDate = moment();
+  if(req.query.date)
+  {
+    currentDate = moment(req.query.date);
+  }
+  res.render('calendar/week', {current: currentDate});
 });
 
 router.get('/day', function(req, res, next) {
-  res.render('day');
+  var currentDate = moment();
+  if(req.query.date)
+  {
+    currentDate = moment(req.query.date);
+  }
+  res.render('calendar/day', {current: currentDate});
 });
 
 module.exports = router;
