@@ -12,9 +12,6 @@ body {
 }
 
 
-
-
-
 header {
   width: 100%;
   position: fixed;
@@ -155,4 +152,8 @@ table.calendar div > div.cevent {
 #time {
   float: right;
   padding-right: 10%;
+}
+
+#EventDesc {
+  width: 30vh;
 }
