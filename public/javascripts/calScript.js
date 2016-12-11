@@ -48,8 +48,14 @@ addTitle(table, month, year, "7", "month");
 
 //add week/day links
 var linkRow = table.insertRow(1);
-linkRow.setAttribute("align", "center");
-var weekCol = linkRow.insertCell(0); var dayCol = linkRow.insertCell(1);
+for(i = 0; i < 7; i++)
+{
+  linkRow.insertCell(i);
+}
+leftArrow = linkRow.cells[0]; weekCol = linkRow.cells[2];
+dayCol = linkRow.cells[4]; rightArrow = linkRow.cells[6];
+leftArrow.innerHTML = "<a href=\"\" class=\"link\"><</a>";
+rightArrow.innerHTML = "<a href=\"\" class=\"link\">></a>";
 weekCol.innerHTML = "<a href=\"week\" class=\"link\">Week</a>";
 dayCol.innerHTML = "<a href=\"day\" class=\"link\">Day</a>";
 
@@ -71,5 +77,5 @@ function closeNav(datestring) {
   removeList(datestring);
   document.getElementById("leftDrawer").style.width = 0;
 }
-getEvents();
+//getEvents();
 //postEvent(new Event("School", "11:21", "23:11", false, [], "2016-11-11"));

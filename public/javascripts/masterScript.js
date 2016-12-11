@@ -1,6 +1,6 @@
 
 //<------------------------------Event Class/Functions------------------->
-var Event = function(title, start, end, repeat, weekdays, datetime)
+var Event = function(title, start, end, repeat, weekdays, datetime, desc)
 {
   this.title = title;
   this.start = start;
@@ -8,6 +8,7 @@ var Event = function(title, start, end, repeat, weekdays, datetime)
   this.repeat = repeat;
   this.weekdays = weekdays;
   this.datetime = datetime;
+  this.desc = desc;
 }
 
 
@@ -18,7 +19,8 @@ function applyEvent(table, e) //adds a green button to calendar view
   {
     var cell = 0;
     var firstDayOfWeek = table.rows[i].cells[cell].childNodes[0];
-    while(firstDayOfWeek.innerHTML == "" || firstDayOfWeek)
+    while(firstDayOfWeek.innerHTML == ""
+     || (" " + firstDayOfWeek.className + " " ).indexOf( " prevMonth " ) > -1)
     {
       cell += 1;
       firstDayOfWeek = table.rows[i].cells[cell].childNodes[0].innerHTML;
@@ -47,12 +49,14 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
   var startDate = document.querySelector("#Time").elements[0];
   var endDate = document.querySelector("#Time").elements[2];
   var repeat = document.getElementsByName("repeat");
+  var desc = document.querySelector("#EventDesc");
   var start = new Date(startDate);
   start.setHours(parseInt(startTime.substring[0, 2]));
   start.setMinutes(parseInt(startTime.substring[3, 5]));
   var end = new Date(endDate);
-  end.setHours(parseInt(endtime.substring[0,2]));
+  end.setHours(parseInt(endTime.substring[0,2]));
   end.setMinutes(parseInt(endTime.substring[3,5]));
+
   for (radio = 0; radio < repeat.length; radio++)
   {
     if(repeat[radio].checked)
@@ -70,7 +74,8 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
     }
   }
   xOut();
-   var newEvent = new Event(title, start, end, repeatCheck, weekdays, startDate);
+   var newEvent = new Event(title, start, end, repeatCheck, weekdays, startDate
+   , desc);
   if(events[startDate] != null)
   {
     events[startDate].push(newEvent);
@@ -81,7 +86,7 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
     events[startDate] = [newEvent];
     applyEvent(document.querySelector(".calendar"), newEvent);
   }
-  postEvent(e);
+  postEvent(newEvent);
 }
 
 function displayEvents(table)
@@ -260,7 +265,7 @@ var currentYear = year;
 
 //<------------------------------AJAX------------------------------------->
 //likely want to move this to another file
-var ajaxURL = "http://thiman.me:1337/aaron";
+var getURL = "localhost:3000/route";
 
 
 var respond = function(data){
@@ -319,7 +324,7 @@ function postEvent(e)
   data1 = JSON.stringify(e);
   $.ajax({
     type:"POST",
-    url:ajaxURL,
+    url:getURL,
     data: data1,
     contentType: "application/json",
     dataType: "json",
@@ -330,7 +335,7 @@ function postEvent(e)
 function getEvents()
 {
   httpRequest.onreadystatechange = respond;
-  httpRequest.open("GET", ajaxURL);
+  httpRequest.open("GET", getURL);
   httpRequest.send();
 }
 //<------------------------------MISC------------------------------------->

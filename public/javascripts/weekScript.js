@@ -49,7 +49,7 @@ function fillWeek(table)
       temp[j] = " ";
     }
     //offset the top labels
-    addRow(table, i + 3, temp, true, false);
+    addRow(table, i + 4, temp, true, false);
   }
 }
 
@@ -85,7 +85,12 @@ var table = document.querySelector(".week");
 addTitle(table, month, year, "8", "week");
 
 addRow(table, 1, weekNums, false, false); //row of day #'s'
-addRow(table, 2, days, false, false);
+newRow = table.insertRow(2);
+newCol = newRow.insertCell(0);
+newCol2  = newRow.insertCell(1);
+newCol.innerHTML= "<a href=\"/\" class=\"link\">Month</a>";
+newCol2.innerHTML= "<a href=\"day\" class=\"link\">Day</a>";
+addRow(table, 3, days, false, false);
 fillWeek(table);
 //table, day# - 1, start hour + 2, end hour + 2, name of event
 addEvent(table, 3, 4, 7, "School", true);

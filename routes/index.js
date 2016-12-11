@@ -14,6 +14,7 @@ router.get('/', function(req, res, next) {
 
 });
 
+
 router.get('/week', function(req, res, next) {
   var currentDate = moment();
   if(req.query.date)
