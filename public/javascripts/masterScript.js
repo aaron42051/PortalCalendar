@@ -29,6 +29,7 @@ function applyEvent(table, e) //adds a green button to calendar view
 
     if (day >= firstDayOfWeek && day<= firstDayOfWeek + 6)
     {
+      console.log("day: " + day);
       var offset = day - firstDayOfWeek + cell;
       var newDiv = document.createElement("div");
       newDiv.setAttribute("class", "cevent");
@@ -46,17 +47,33 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
   var title = document.querySelector("#EventTitle").elements[0].value;
   var startTime = document.querySelector("#Time").elements[1].value;
   var endTime = document.querySelector("#Time").elements[3].value;
-  var startDate = document.querySelector("#Time").elements[0];
-  var endDate = document.querySelector("#Time").elements[2];
+  var startDate = document.querySelector("#Time").elements[0].value;
+  var endDate = document.querySelector("#Time").elements[2].value;
   var repeat = document.getElementsByName("repeat");
-  var desc = document.querySelector("#EventDesc");
-  var start = new Date(startDate);
-  start.setHours(parseInt(startTime.substring[0, 2]));
-  start.setMinutes(parseInt(startTime.substring[3, 5]));
-  var end = new Date(endDate);
-  end.setHours(parseInt(endTime.substring[0,2]));
-  end.setMinutes(parseInt(endTime.substring[3,5]));
 
+  var desc = document.querySelector("#EventDesc").value;
+
+  syear = parseInt(startDate.substring(0, 5));
+  smonth = parseInt(startDate.substring(5, 8)) - 1;
+  sday = parseInt(startDate.substring(8));
+
+  var start = new Date(syear, smonth, sday);
+
+  start.setHours(parseInt(startTime.substring(0, 2)));
+  start.setMinutes(parseInt(startTime.substring(3, 5)));
+  eyear = parseInt(endDate.substring(0, 5));
+  emonth = parseInt(endDate.substring(6, 8));
+  eday = parseInt(endDate.substring(8));
+  var end = new Date(eyear, emonth, eday);
+
+  end.setHours(parseInt(endTime.substring(0,2)));
+  end.setMinutes(parseInt(endTime.substring(3,5)));
+  console.log("start: " + start);
+
+  console.log("title: " + title);
+
+  console.log("end: " + endDate);
+  console.log("desc: " + desc);
   for (radio = 0; radio < repeat.length; radio++)
   {
     if(repeat[radio].checked)
@@ -65,6 +82,7 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
       break;
     }
   }
+  console.log("repeat: " + repeatCheck);
   var weekdays = [];
   for (d = 0; d < days.length; d++)
   {
@@ -265,7 +283,7 @@ var currentYear = year;
 
 //<------------------------------AJAX------------------------------------->
 //likely want to move this to another file
-var getURL = "localhost:3000/route";
+var getURL = "http://localhost:3000/route";
 
 
 var respond = function(data){
@@ -276,25 +294,19 @@ var respond = function(data){
       //alert(httpRequest.responseText);
       console.log("200 OK");
       parse = JSON.parse(data["currentTarget"]["response"]);
-      dataArray = parse["data"];
-      for (i = 0; i < dataArray.length; i++)
+      for (i = 0; i < parse.length; i++)
       {
-        currentEvent = dataArray[i];
+        currentEvent = parse[i];
         datestring = currentEvent["datetime"];
-        // console.log(datetime);
-        // year = datetime.substring(0, 4);
-        // month = datetime.substring(5, 7);
-        // day = datetime.substring(8, 10);
-        // datestring = year + "-" + month + "-" + day;
-        //datestring = makeDatestring(datetime);
         if (events[datestring] != null) //fuse into another function later
         {
-          events[datestring].push(dataArray[i]);
+          events[datestring].push(parse[i]);
         }
         else
         {
-          events[datestring] = [dataArray[i]];
-          applyEvent(document.querySelector(".calendar"), dataArray[i]);
+          events[datestring] = [currentEvent];
+          applyEvent(document.querySelector(".calendar"), currentEvent);
+          console.log("ADDED EVENT");
         }
 
       }
@@ -310,6 +322,26 @@ var respond = function(data){
   }
 }
 
+var post = function(data) {
+  if(httpRequest.readyState === XMLHttpRequest.DONE) //receive response
+  {
+    if(httpRequest.status === 200)//successful call
+    {
+      //alert(httpRequest.responseText);
+      console.log("200 OK");
+
+    }
+    else
+    {
+      console.log("Problem with request");
+    }
+  }
+  else
+  {
+    console.log("status: " + httpRequest.readyState);
+  }
+}
+
 if (window.XMLHttpRequest) { // Mozilla, Safari, IE7+ ...
     httpRequest = new XMLHttpRequest();
 } else if (window.ActiveXObject) { // IE 6 and older
@@ -319,17 +351,22 @@ if (window.XMLHttpRequest) { // Mozilla, Safari, IE7+ ...
 function postEvent(e)
 {
 
-  httpRequest.onreadystatechange = respond;
-
+  httpRequest.onreadystatechange = post;
+  //httpRequest.open("POST", getURL);
+  console.log("event start date: " + e.start);
   data1 = JSON.stringify(e);
-  $.ajax({
-    type:"POST",
-    url:getURL,
-    data: data1,
-    contentType: "application/json",
-    dataType: "json",
-    success: respond
-  });
+  console.log(data1);
+  // $.ajax({
+  //   type:"POST",
+  //   url:getURL,
+  //   data: data1,
+  //   contentType: "application/json",
+  //   dataType: "json",
+  //   success: post
+  // });
+  httpRequest.open("POST", getURL);
+  httpRequest.send(data1);
+  //$.post(getURL, data1, post);
 }
 
 function getEvents()

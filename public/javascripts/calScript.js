@@ -69,13 +69,16 @@ fillDays(table, currentDay, currentWeek, lastWeek, month);
 
 
 function openNav(datestring) {
-  listDay(datestring);
-  document.getElementById("leftDrawer").style.width = "20%";
+  if (document.getElementById("leftDrawer").style.width != 0)
+  {
+    listDay(datestring);
+    document.getElementById("leftDrawer").style.width = "20%";
+  }
 }
 
 function closeNav(datestring) {
   removeList(datestring);
   document.getElementById("leftDrawer").style.width = 0;
 }
+
 //getEvents();
-//postEvent(new Event("School", "11:21", "23:11", false, [], "2016-11-11"));
