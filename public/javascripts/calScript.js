@@ -71,6 +71,7 @@ fillDays(table, currentDay, currentWeek, lastWeek, month);
 function openNav(datestring) {
   if (document.getElementById("leftDrawer").style.width != 0)
   {
+    console.log("click!");
     listDay(datestring);
     document.getElementById("leftDrawer").style.width = "20%";
   }
@@ -81,4 +82,4 @@ function closeNav(datestring) {
   document.getElementById("leftDrawer").style.width = 0;
 }
 
-//getEvents();
+getEvents();

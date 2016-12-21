@@ -12,29 +12,29 @@ var Event = function(title, start, end, repeat, weekdays, datetime, desc)
 }
 
 
-
 function applyEvent(table, e) //adds a green button to calendar view
 {
   for(i = 3; i < table.rows.length; i++)
   {
     var cell = 0;
     var firstDayOfWeek = table.rows[i].cells[cell].childNodes[0];
-    while(firstDayOfWeek.innerHTML == ""
-     || (" " + firstDayOfWeek.className + " " ).indexOf( " prevMonth " ) > -1)
+    while(firstDayOfWeek.innerHTML == "" || (i == 3 &&
+    firstDayOfWeek.innerHTML > 7))
     {
       cell += 1;
-      firstDayOfWeek = table.rows[i].cells[cell].childNodes[0].innerHTML;
+      firstDayOfWeek = table.rows[i].cells[cell].childNodes[0];
     }
-    firstDayOfWeek = parseInt(firstDayOfWeek);
-
-    if (day >= firstDayOfWeek && day<= firstDayOfWeek + 6)
+    firstDayOfWeek = parseInt(firstDayOfWeek.innerHTML);
+    eventDay = e.start.getDate();
+    if (eventDay >= firstDayOfWeek && eventDay<= firstDayOfWeek + 6)
     {
-      console.log("day: " + day);
-      var offset = day - firstDayOfWeek + cell;
+      var offset = eventDay - firstDayOfWeek + cell;
       var newDiv = document.createElement("div");
       newDiv.setAttribute("class", "cevent");
+      //newDiv.addEventListener("click", openNav(e.datetime));
       newDiv.setAttribute("onclick", "openNav(" + "\"" +  e.datetime + "\""+ ")");
       table.rows[i].cells[offset].childNodes[0].appendChild(newDiv);
+      console.log(newDiv);
       drawer = document.querySelector("#leftDrawer");
       drawer.childNodes[1].setAttribute("onclick", "closeNav(" + "\"" +  e.datetime + "\""+ ")");
     }
@@ -61,6 +61,7 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
 
   start.setHours(parseInt(startTime.substring(0, 2)));
   start.setMinutes(parseInt(startTime.substring(3, 5)));
+
   eyear = parseInt(endDate.substring(0, 5));
   emonth = parseInt(endDate.substring(6, 8));
   eday = parseInt(endDate.substring(8));
@@ -298,6 +299,7 @@ var respond = function(data){
       {
         currentEvent = parse[i];
         datestring = currentEvent["datetime"];
+        console.log(datestring);
         if (events[datestring] != null) //fuse into another function later
         {
           events[datestring].push(parse[i]);
@@ -356,17 +358,14 @@ function postEvent(e)
   console.log("event start date: " + e.start);
   data1 = JSON.stringify(e);
   console.log(data1);
-  // $.ajax({
-  //   type:"POST",
-  //   url:getURL,
-  //   data: data1,
-  //   contentType: "application/json",
-  //   dataType: "json",
-  //   success: post
-  // });
-  httpRequest.open("POST", getURL);
-  httpRequest.send(data1);
-  //$.post(getURL, data1, post);
+  $.ajax({
+    type:"POST",
+    url:getURL,
+    data: data1,
+    contentType: "application/json",
+    dataType: "json",
+    success: post
+  });
 }
 
 function getEvents()

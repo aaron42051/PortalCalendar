@@ -42,8 +42,8 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next){
   var newEvent = new eventModel({
     title: req.body["title"],
-    startDate: req.body["start"],
-    endDate: req.body["end"],
+    start: req.body["start"],
+    end: req.body["end"],
     repeat: req.body["repeat"],
     desc: req.body["desc"],
     weekdays: req.body["weekdays"],
