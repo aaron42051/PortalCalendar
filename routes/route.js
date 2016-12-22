@@ -8,8 +8,8 @@ var event1 = require('./events');
 
 var eventSchema = new Schema({ //put in another file later, along with model
   title:  String,
-  startDate: Date,
-  endDate: Date,
+  start: Date,
+  end: Date,
   desc: String,
   repeat: Boolean,
   weekdays: Array,

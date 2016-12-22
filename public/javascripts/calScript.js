@@ -69,12 +69,14 @@ fillDays(table, currentDay, currentWeek, lastWeek, month);
 
 
 function openNav(datestring) {
-  if (document.getElementById("leftDrawer").style.width != 0)
-  {
+  console.log(document.getElementById("leftDrawer").style.width);
+
+//  if (document.getElementById("leftDrawer").style.width === null)
+//  {
     console.log("click!");
-    listDay(datestring);
     document.getElementById("leftDrawer").style.width = "20%";
-  }
+    listDay(datestring);
+//  }
 }
 
 function closeNav(datestring) {

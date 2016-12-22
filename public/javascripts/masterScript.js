@@ -32,7 +32,7 @@ function applyEvent(table, e) //adds a green button to calendar view
       var newDiv = document.createElement("div");
       newDiv.setAttribute("class", "cevent");
       //newDiv.addEventListener("click", openNav(e.datetime));
-      newDiv.setAttribute("onclick", "openNav(" + "\"" +  e.datetime + "\""+ ")");
+      newDiv.setAttribute("onclick", "openNav(" + "'" +  e.datetime + "'"+ ")");
       table.rows[i].cells[offset].childNodes[0].appendChild(newDiv);
       console.log(newDiv);
       drawer = document.querySelector("#leftDrawer");
@@ -300,6 +300,8 @@ var respond = function(data){
         currentEvent = parse[i];
         datestring = currentEvent["datetime"];
         console.log(datestring);
+        currentEvent.start = new Date(currentEvent.start);
+        currentEvent.end = new Date(currentEvent.end);
         if (events[datestring] != null) //fuse into another function later
         {
           events[datestring].push(parse[i]);
@@ -307,6 +309,7 @@ var respond = function(data){
         else
         {
           events[datestring] = [currentEvent];
+          console.log("start: " + parse[0]);
           applyEvent(document.querySelector(".calendar"), currentEvent);
           console.log("ADDED EVENT");
         }
