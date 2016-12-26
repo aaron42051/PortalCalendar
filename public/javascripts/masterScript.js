@@ -14,6 +14,8 @@ var Event = function(title, start, end, repeat, weekdays, datetime, desc)
 
 function applyEvent(table, e) //adds a green button to calendar view
 {
+  if(e.start.getMonth() === currentMonth)
+  {
   for(i = 3; i < table.rows.length; i++)
   {
     var cell = 0;
@@ -39,6 +41,7 @@ function applyEvent(table, e) //adds a green button to calendar view
       drawer.childNodes[1].setAttribute("onclick", "closeNav(" + "\"" +  e.datetime + "\""+ ")");
     }
   }
+}
 }
 
 //after using addEvent modal
@@ -132,11 +135,23 @@ function listDay(datestring)
   list = document.createElement("ol");
   list.setAttribute("class", "list");
   arr = events[datestring];
+
   for(i = 0; i < arr.length; i++)
   {
     e = arr[i];
+    m1 = e.start.getMinutes();
+    m2 = e.end.getMinutes();
+    if (m1 < 10)
+    {
+      m1 = "0" + m1;
+    }
+    if (m2 < 10)
+    {
+      m2 = "0" + m2;
+    }
     list.innerHTML += "<li>" + e.title + "<span id=\"time\">"
-    + e.start + " - " + e.end+ "</span>" + "</li>";
+    + e.start.getHours() + ":" + m1 + " - " + e.end.getHours()
+    + ":" +  m2 + "</span>" + "</li>";
   }
   drawer.appendChild(list);
 }
@@ -376,6 +391,11 @@ function getEvents()
   httpRequest.onreadystatechange = respond;
   httpRequest.open("GET", getURL);
   httpRequest.send();
+}
+
+function getPage(url)
+{
+
 }
 //<------------------------------MISC------------------------------------->
 

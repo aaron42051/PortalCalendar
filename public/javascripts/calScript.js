@@ -54,8 +54,17 @@ for(i = 0; i < 7; i++)
 }
 leftArrow = linkRow.cells[0]; weekCol = linkRow.cells[2];
 dayCol = linkRow.cells[4]; rightArrow = linkRow.cells[6];
-leftArrow.innerHTML = "<a href=\"\" class=\"link\"><</a>";
-rightArrow.innerHTML = "<a href=\"\" class=\"link\">></a>";
+
+leftArrow.innerHTML = "<a href=\"#\" onclick='getPage(\"localhost:3000/?date="
++ currentDate.getMonth() + "/" + currentDate.getDate() + "/"
++ currentDate.getFullYear()
++ "\");' class=\"link\"><</a>";
+
+rightArrow.innerHTML = "<a href\"#\" onclick='getPage(\"localhost:3000/?date="
++ ((currentDate.getMonth() + 2)%12) + "/"
++ currentDate.getDate() + "/" + currentDate.getFullYear()
++ "\");' class=\"link\">></a>";
+console.log(leftArrow.innerHTML);
 weekCol.innerHTML = "<a href=\"week\" class=\"link\">Week</a>";
 dayCol.innerHTML = "<a href=\"day\" class=\"link\">Day</a>";
 
@@ -71,12 +80,12 @@ fillDays(table, currentDay, currentWeek, lastWeek, month);
 function openNav(datestring) {
   console.log(document.getElementById("leftDrawer").style.width);
 
-//  if (document.getElementById("leftDrawer").style.width === null)
-//  {
+  if (document.getElementById("leftDrawer").style.width != "20%")
+  {
     console.log("click!");
     document.getElementById("leftDrawer").style.width = "20%";
     listDay(datestring);
-//  }
+  }
 }
 
 function closeNav(datestring) {

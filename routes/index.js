@@ -8,11 +8,18 @@ router.get('/', function(req, res, next) {
   if(req.query.date)
   {
     currentDate = moment(req.query.date);
+    console.log(req.query.date);
   }
   res.render('calendar/month', { title: currentDate.format('MMMM D, YYYY'),
   current: currentDate});
 
 });
+
+// router.get('/:month', function(req, res, next) {
+//   var month = req.params.month;
+//   currentDate = new Date();
+//   currentDate.set
+// })
 
 
 router.get('/week', function(req, res, next) {

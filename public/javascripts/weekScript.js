@@ -72,8 +72,13 @@ function addEvent(table, day, start, end, name, PM) //swap to use Event
 
 //Date
 
-
-var weekNums = ["Time", 1, 2, 3, 4, 5, 6, 7]; //test array
+firstDay = currentDate.getDate() - day;
+console.log(firstDay);
+var weekNums = ["Time", 1, 2, 3, 4, 5, 6, 7];
+for(i = 0; i < 7; i++)
+{
+  weekNums[i + 1] = firstDay + i;
+}
 
 var dayLabels=[time[0] + " AM", " ", " ", " ", " ", " ", " ", " "];
 
@@ -86,10 +91,16 @@ addTitle(table, month, year, "8", "week");
 
 addRow(table, 1, weekNums, false, false); //row of day #'s'
 newRow = table.insertRow(2);
-newCol = newRow.insertCell(0);
-newCol2  = newRow.insertCell(1);
-newCol.innerHTML= "<a href=\"/\" class=\"link\">Month</a>";
-newCol2.innerHTML= "<a href=\"day\" class=\"link\">Day</a>";
+for(i = 0; i < 8; i++)
+{
+  newRow.insertCell(i);
+}
+leftArrow = newRow.cells[0]; weekCol = newRow.cells[2];
+dayCol = newRow.cells[5]; rightArrow = newRow.cells[7];
+leftArrow.innerHTML = "<a href=\"\" class=\"link\"><</a>";
+rightArrow.innerHTML = "<a href=\"\" class=\"link\">></a>";
+weekCol.innerHTML = "<a href=\"week\" class=\"link\">Week</a>";
+dayCol.innerHTML = "<a href=\"day\" class=\"link\">Day</a>";
 addRow(table, 3, days, false, false);
 fillWeek(table);
 //table, day# - 1, start hour + 2, end hour + 2, name of event
