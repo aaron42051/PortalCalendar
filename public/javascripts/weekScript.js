@@ -99,7 +99,7 @@ leftArrow = newRow.cells[0]; weekCol = newRow.cells[2];
 dayCol = newRow.cells[5]; rightArrow = newRow.cells[7];
 leftArrow.innerHTML = "<a href=\"\" class=\"link\"><</a>";
 rightArrow.innerHTML = "<a href=\"\" class=\"link\">></a>";
-weekCol.innerHTML = "<a href=\"week\" class=\"link\">Week</a>";
+weekCol.innerHTML = "<a href=\"calendar\" class=\"link\">Month</a>";
 dayCol.innerHTML = "<a href=\"day\" class=\"link\">Day</a>";
 addRow(table, 3, days, false, false);
 fillWeek(table);

@@ -72,12 +72,6 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
 
   end.setHours(parseInt(endTime.substring(0,2)));
   end.setMinutes(parseInt(endTime.substring(3,5)));
-  console.log("start: " + start);
-
-  console.log("title: " + title);
-
-  console.log("end: " + endDate);
-  console.log("desc: " + desc);
   for (radio = 0; radio < repeat.length; radio++)
   {
     if(repeat[radio].checked)
@@ -86,7 +80,6 @@ function submitEvent() //NEED TO CHECK FOR BAD INPUTS
       break;
     }
   }
-  console.log("repeat: " + repeatCheck);
   var weekdays = [];
   for (d = 0; d < days.length; d++)
   {
@@ -373,9 +366,8 @@ function postEvent(e)
 
   httpRequest.onreadystatechange = post;
   //httpRequest.open("POST", getURL);
-  console.log("event start date: " + e.start);
   data1 = JSON.stringify(e);
-  console.log(data1);
+  console.log("Stringify: " + data1);
   $.ajax({
     type:"POST",
     url:getURL,
@@ -393,10 +385,14 @@ function getEvents()
   httpRequest.send();
 }
 
-function getPage(url)
+function getNew(crement)
 {
-
+  httpRequest.onreadystatechange = post;
+  httpRequest.open("GET", "http://localhost:3000/?date=" + crement);
+  httpRequest.send();
 }
+
+
 //<------------------------------MISC------------------------------------->
 
 function makeDatestring(datetime)

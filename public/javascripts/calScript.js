@@ -54,16 +54,26 @@ for(i = 0; i < 7; i++)
 }
 leftArrow = linkRow.cells[0]; weekCol = linkRow.cells[2];
 dayCol = linkRow.cells[4]; rightArrow = linkRow.cells[6];
+year = currentDate.getFullYear();
+if (currentDate.getMonth() == 11)
+{
+  year += 1;
+}
+nextMonth = ((currentDate.getMonth() + 2)%12) + "/"
++ currentDate.getDate() + "/" + year;
+prevMonth = currentDate.getMonth()  +"/"
++ currentDate.getDate() + "/" + currentDate.getFullYear();
+console.log(prevMonth[0]);
+if(prevMonth[0] == 0)
+{
 
-leftArrow.innerHTML = "<a href=\"#\" onclick='getPage(\"localhost:3000/?date="
-+ currentDate.getMonth() + "/" + currentDate.getDate() + "/"
-+ currentDate.getFullYear()
-+ "\");' class=\"link\"><</a>";
+  prevMonth = "12/" + currentDate.getDate() + "/" +
+  (currentDate.getFullYear() - 1);
 
-rightArrow.innerHTML = "<a href\"#\" onclick='getPage(\"localhost:3000/?date="
-+ ((currentDate.getMonth() + 2)%12) + "/"
-+ currentDate.getDate() + "/" + currentDate.getFullYear()
-+ "\");' class=\"link\">></a>";
+}
+
+leftArrow.innerHTML = "<a href=\"?date=" + prevMonth + "\"class=\"link\"><</a>";
+rightArrow.innerHTML = "<a href=\"?date="+nextMonth +"\" class=\"link\">></a>";
 console.log(leftArrow.innerHTML);
 weekCol.innerHTML = "<a href=\"week\" class=\"link\">Week</a>";
 dayCol.innerHTML = "<a href=\"day\" class=\"link\">Day</a>";
