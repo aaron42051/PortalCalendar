@@ -33,12 +33,15 @@ function applyEvent(table, e) //adds a green button to calendar view
   for(i = 3; i < table.rows.length; i++)
   {
     var cell = 0;
-    var firstDayOfWeek = table.rows[i].cells[cell].childNodes[0];
+    var firstDayOfWeek =
+    table.rows[i].cells[cell].childNodes[0].childNodes[0].childNodes[0];
+    console.log("element: " + firstDayOfWeek);
     while(firstDayOfWeek.innerHTML == "" || (i == 3 &&
     firstDayOfWeek.innerHTML > 7))
     {
       cell += 1;
-      firstDayOfWeek = table.rows[i].cells[cell].childNodes[0];
+      firstDayOfWeek =
+      table.rows[i].cells[cell].childNodes[0].childNodes[0].childNodes[0];
     }
     firstDayOfWeek = parseInt(firstDayOfWeek.innerHTML);
     eventDay = e.start.getDate();
@@ -49,7 +52,7 @@ function applyEvent(table, e) //adds a green button to calendar view
       newDiv.setAttribute("class", "cevent");
       //newDiv.addEventListener("click", openNav(e.datetime));
       newDiv.setAttribute("onclick", "openNav(" + "'" +  e.datetime + "'"+ ")");
-      table.rows[i].cells[offset].childNodes[0].appendChild(newDiv);
+      table.rows[i].cells[offset].childNodes[0].childNodes[0].appendChild(newDiv);
       console.log(newDiv);
       drawer = document.querySelector("#leftDrawer");
       drawer.childNodes[1].setAttribute("onclick", "closeNav(" + "\"" +  e.datetime + "\""+ ")");
@@ -192,15 +195,17 @@ function addWeek(table, row, days, divs, last)
     {
       var a = document.createElement("a");
       var div = document.createElement("div");
+      var innerA = document.createElement("a");
+      date = (month + 1) + "/" + days[i-startPoint] + "/" + year;
       if(i >= startPoint && i <= endPoint)
       {
-        a.setAttribute("href", "week?date=" + (month+1) + "/" +
-        days[i-startPoint] + "/" + year);
-        div.innerHTML = days[i-startPoint];
+        innerA.setAttribute("href", "day?date=" + date);
+        innerA.innerHTML = days[i-startPoint];
+        a.setAttribute("href", "week?date=" + date);
       }
       if ((i > endPoint) && last)
       {
-        div.innerHTML = lastDays;
+        innerA.innerHTML = lastDays;
         div.setAttribute("class", "diffMonth");
         lastDays +=1;
       }
@@ -208,6 +213,7 @@ function addWeek(table, row, days, divs, last)
       {
         div.setAttribute("class", "today");
       }
+      div.appendChild(innerA);
       a.appendChild(div);
       newC.appendChild(a);
     }
@@ -334,7 +340,7 @@ var currentYear = year;
 var getURL = "http://localhost:3000/route";
 
 
-var respond = function(data){
+var getMonth = function(data){
   if(httpRequest.readyState === XMLHttpRequest.DONE) //receive response
   {
     if(httpRequest.status === 200)//successful call
@@ -373,6 +379,7 @@ var respond = function(data){
 
   }
 }
+
 
 var post = function(data) {
   if(httpRequest.readyState === XMLHttpRequest.DONE) //receive response
@@ -417,9 +424,9 @@ function postEvent(e)
   });
 }
 
-function getEvents()
+function getEvents(getFunction)
 {
-  httpRequest.onreadystatechange = respond;
+  httpRequest.onreadystatechange = getFunction;
   httpRequest.open("GET", getURL);
   httpRequest.send();
 }

@@ -53,13 +53,13 @@ function fillWeek(table)
   }
 }
 
-function addEvent(table, day, start, end, name, PM) //swap to use Event
+function addEvent(table, day, start, end, name) //swap to use Event
 {
-  if (PM)
-  {
-    start += 12;
-    end += 12;
-  }
+  // if (PM)
+  // {
+  //   start += 12;
+  //   end += 12;
+  // }
   for(start1 = start; start1 < end; start1++)
   {
     var inside = "<div class=\"cevent\"></div>";
@@ -67,6 +67,19 @@ function addEvent(table, day, start, end, name, PM) //swap to use Event
       inside = "<div class=\"cevent\">" + name + "</div>";
     }
     table.rows[start1].cells[day].innerHTML = inside;
+  }
+}
+
+function getWeekEvents()
+{
+  for (key in events)
+  {
+    for (i = 0; i < events[key]; i++)
+    {
+      eventA = events[key];
+      addEvent(table, eventA[i].start.getHours(),
+      eventA[i].end.getHours(), eventA[i].title);
+    }
   }
 }
 
@@ -104,4 +117,3 @@ dayCol.innerHTML = "<a href=\"day\" class=\"link\">Day</a>";
 addRow(table, 3, days, false, false);
 fillWeek(table);
 //table, day# - 1, start hour + 2, end hour + 2, name of event
-addEvent(table, 3, 4, 7, "School", true);

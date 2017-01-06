@@ -88,4 +88,4 @@ var lastWeek = false; //don't fill in days past 29-31
 //filling in the days
 fillDays(table, currentDay, currentWeek, lastWeek, month);
 
-getEvents();
+getEvents(getMonth);
