@@ -54,22 +54,24 @@ for(i = 0; i < 7; i++)
 }
 leftArrow = linkRow.cells[0]; weekCol = linkRow.cells[2];
 dayCol = linkRow.cells[4]; rightArrow = linkRow.cells[6];
-year = currentDate.getFullYear();
-if (currentDate.getMonth() == 11)
+year1 = currentDate.getFullYear();
+if (month == 11)
 {
-  year += 1;
+  year1 += 1;
 }
-nextMonth = ((currentDate.getMonth() + 2)%12) + "/"
-+ currentDate.getDate() + "/" + year;
+nextMonth = ((month + 2)%12) + "/"
++ currentDate.getDate() + "/" + year1;
 prevMonth = currentDate.getMonth()  +"/"
-+ currentDate.getDate() + "/" + currentDate.getFullYear();
-console.log(prevMonth[0]);
++ currentDate.getDate() + "/" + year;
+console.log(nextMonth);
 if(prevMonth[0] == 0)
 {
-
   prevMonth = "12/" + currentDate.getDate() + "/" +
-  (currentDate.getFullYear() - 1);
-
+  (year - 1);
+}
+if(nextMonth[0] == 0)
+{
+  nextMonth = "12/" + currentDate.getDate() + "/" + year;
 }
 
 leftArrow.innerHTML = "<a href=\"?date=" + prevMonth + "\"class=\"link\"><</a>";
@@ -85,22 +87,5 @@ var lastWeek = false; //don't fill in days past 29-31
 
 //filling in the days
 fillDays(table, currentDay, currentWeek, lastWeek, month);
-
-
-function openNav(datestring) {
-  console.log(document.getElementById("leftDrawer").style.width);
-
-  if (document.getElementById("leftDrawer").style.width != "20%")
-  {
-    console.log("click!");
-    document.getElementById("leftDrawer").style.width = "20%";
-    listDay(datestring);
-  }
-}
-
-function closeNav(datestring) {
-  removeList(datestring);
-  document.getElementById("leftDrawer").style.width = 0;
-}
 
 getEvents();

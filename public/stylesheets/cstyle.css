@@ -163,6 +163,10 @@ table.calendar div > div.cevent {
   align-self:center;
 }
 
-.prevMonth {
+.diffMonth {
   background-color: #d1e0e0;
+}
+
+.today {
+  background-color: #AEFF95;
 }

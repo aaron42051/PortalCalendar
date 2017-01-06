@@ -11,7 +11,21 @@ var Event = function(title, start, end, repeat, weekdays, datetime, desc)
   this.desc = desc;
 }
 
+function openNav(datestring) {
+  console.log(document.getElementById("leftDrawer").style.width);
 
+  if (document.getElementById("leftDrawer").style.width != "20%")
+  {
+    console.log("click!");
+    document.getElementById("leftDrawer").style.width = "20%";
+    listDay(datestring);
+  }
+}
+
+function closeNav(datestring) {
+  removeList(datestring);
+  document.getElementById("leftDrawer").style.width = 0;
+}
 function applyEvent(table, e) //adds a green button to calendar view
 {
   if(e.start.getMonth() === currentMonth)
@@ -160,25 +174,42 @@ function removeList(datestring)
 //<------------------------------HTML Table Editing----------------------->
 function addWeek(table, row, days, divs, last)
 {
+  console.log(days);
   var newR = table.insertRow(row);
+  lastDays = 1;
   for(i = 0; i < 7; i++)
   {
     var newC = newR.insertCell(i);
     var startPoint = 7 - days.length;
     var endPoint = 7;
+
     if(last)
     {
       startPoint = 0;
-      endPoint = 7 - days.length;
+      endPoint = days.length - 1;
     }
     if(divs)
     {
+      var a = document.createElement("a");
       var div = document.createElement("div");
       if(i >= startPoint && i <= endPoint)
       {
+        a.setAttribute("href", "week?date=" + (month+1) + "/" +
+        days[i-startPoint] + "/" + year);
         div.innerHTML = days[i-startPoint];
       }
-      newC.appendChild(div);
+      if ((i > endPoint) && last)
+      {
+        div.innerHTML = lastDays;
+        div.setAttribute("class", "diffMonth");
+        lastDays +=1;
+      }
+      if((month == actualM) && (year == actualY) && (days[i] == day))
+      {
+        div.setAttribute("class", "today");
+      }
+      a.appendChild(div);
+      newC.appendChild(a);
     }
     else
     {
@@ -205,35 +236,39 @@ function fillDays(table, currentDay, currentWeek, lastWeek, month)
   d = currentDay;
   w = currentWeek;
   previousMonth = month - 1;
+  if(month == 0)
+  {
+    previousMonth = 11;
+  }
     while(d <= days_in_month[month])
     {
-    weekNums = [];
-    offset = 0;
-    if(w == 3)
-    {
-      offset = startDay;
-    }
-    for (i = 0; i < 7 - offset; i++)
-    {
-      if(d <= days_in_month[month])
+      weekNums = [];
+      offset = 0;
+      if(w == 3)
       {
-        weekNums.push(d);
-        d+= 1;
+        offset = startDay;
       }
-      else
+      for (i = 0; i < 7 - offset; i++)
       {
+        if(d <= days_in_month[month])
+        {
+          weekNums.push(d);
+          d+= 1;
+        }
+        else
+        {
           lastWeek = true;
+        }
       }
-    }
-    addWeek(table, w, weekNums, true, lastWeek);
-    w+=1;
+      addWeek(table, w, weekNums, true, lastWeek);
+      w+=1;
   }
   count = 0;
   for(i = startDay - 1; i >= 0; i--)
   {
     currentDiv = table.rows[3].cells[count].childNodes[0];
     currentDiv.innerHTML = days_in_month[previousMonth] - i;
-    currentDiv.setAttribute("class", "prevMonth");
+    currentDiv.setAttribute("class", "diffMonth");
     count += 1;
   }
 }
@@ -279,7 +314,11 @@ var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "S
 var time = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 //Date
-//var today = new Date();
+var today = new Date();
+var actualM = today.getMonth();
+var actualD = today.getDate();
+var actualY = today.getFullYear();
+
 var month = currentDate.getMonth();
 var year = currentDate.getFullYear();
 var day = currentDate.getDay();
